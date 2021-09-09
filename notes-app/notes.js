@@ -1,6 +1,5 @@
 const fs = require('fs');
 const chalk = require('chalk');
-const { title } = require('process');
 
 const NOTES_FILE = 'notes.json';
 
