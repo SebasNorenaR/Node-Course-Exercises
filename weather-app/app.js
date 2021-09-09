@@ -5,16 +5,15 @@ if(!process.argv[2]) {
     console.log('Please provide the location to search');
     return;
 }
-geocode(process.argv[2], (error, data) => {
+geocode(process.argv[2], (error, {latitude, longitud, location} = {}) => {
     if(error) {
         console.log(error);
     } else {
-        console.log(data);
-        forecast(data.latitude, data.longitud, (error,  forecastResult ) => {
+        forecast(latitude, longitud, (error,  forecastResult ) => {
             if(error){
                 console.error(error);
             } else {
-                console.log('ANSWER:');
+                console.log('ANSWER: Searched for:' , location);
                 console.log(forecastResult);
             }
         });

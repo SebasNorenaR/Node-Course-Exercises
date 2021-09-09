@@ -4,20 +4,18 @@ const accessTokenAndLimit = '?access_token=pk.eyJ1Ijoic2ViYXN0aWFuZGFuaWxvbnIiLC
 
 const geocode = (address, callback) => {
     const url = `${urlForMap}${encodeURI(address)}.json${accessTokenAndLimit}`;
-    request({ url: url , json: true }, (error, response) => {
+    request({ url: url , json: true }, (error, {body} = {}) => {
         if (error) {
             callback('Error connecting to server');
-        } else if (!response.body.features) {
+        } else if (!body || !body.features) {
             callback('Error, bad request');
-        } else if(response.body.features && response.body.features.length === 0) {
+        } else if(body.features && body.features.length === 0) {
             callback('No results found');
         } else {
-            const data = response.body;
-            const longitud = data.features[0].center[0];
-            const latitude = data.features[0].center[1];
-            const location = data.features[0].place_name;
+            const longitud = body.features[0].center[0];
+            const latitude = body.features[0].center[1];
+            const location = body.features[0].place_name;
             callback( null, {
-                search_string: address,
                 location,
                 longitud,
                 latitude
